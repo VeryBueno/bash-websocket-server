@@ -1,6 +1,6 @@
 # Bash Websocket Server
 
-This is a websocket server written in bash that uses `netcat` and `openssl`. I made it because I needed a way to send something like a push notification to a browser. That said, this server  not recieve messages, only sends them.
+This is a websocket server written in bash that uses `netcat` and `openssl`. I made it because I *wanted* to write something in bash and I needed a way to send something like a push notification to a browser. That said, this server  not recieve messages, only sends them.
 
 It works fine with chromium.
 
