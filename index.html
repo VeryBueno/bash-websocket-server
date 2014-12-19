@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title></title>
+   <script>
+      function start() {
+         var connection = new WebSocket('ws://localhost:8888/websocket');
+
+         connection.onopen = function () {
+           document.getElementById("status").innerHTML = "Connected";
+         };
+
+         connection.onclose = function() {
+           document.getElementById("status").innerHTML = "Not Connected";
+         };
+
+         connection.onmessage = function (evt) {
+            document.getElementById("messages").innerHTML += evt.data + "<br/>";
+         };
+      }
+   </script>
+</head>
+<body>
+   <button onclick="start();">Connect to server</button>
+   [<span id="status">Not Connected</span>]
+   <br/>
+   <hr/>
+   <div id="messages">
+      <strong>Server Messages</strong><br/>
+   </div>
+</body>
+</html>
