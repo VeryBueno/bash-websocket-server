@@ -11,8 +11,8 @@ rm -f $WS_PIPE;
 mkfifo $WS_PIPE;
 
 # set up a pipe for the CLI
-rm -f $WS_PIPE;
-mkfifo $WS_PIPE;
+rm -f $IN_PIPE;
+mkfifo $IN_PIPE;
 
 # run the server
 cat $WS_PIPE | ./pipe_to_websocket.sh $IN_PIPE | nc -l -p $SERVER_PORT > $WS_PIPE &
