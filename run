@@ -1,0 +1,27 @@
+#!/bin/bash
+# The script that starts the pipe to websocket server.
+# It forwards anything received from stdin to the pipe
+
+SERVER_PORT=8888
+WS_PIPE=/tmp/wsp
+IN_PIPE=/tmp/inp
+
+# set up a pipe for the websocket
+rm -f $WS_PIPE;
+mkfifo $WS_PIPE;
+
+# set up a pipe for the CLI
+rm -f $WS_PIPE;
+mkfifo $WS_PIPE;
+
+# run the server
+cat $WS_PIPE | ./pipe_to_websocket.sh $IN_PIPE | nc -l -p $SERVER_PORT > $WS_PIPE &
+serverpid=$!
+
+# input loop
+while read line
+do
+   echo "$line" >> $IN_PIPE;
+done
+
+kill $serverpid
