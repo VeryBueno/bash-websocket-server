@@ -15,8 +15,16 @@ rm -f $IN_PIPE;
 mkfifo $IN_PIPE;
 
 # run the server
-cat $WS_PIPE | ./pipe_to_websocket.sh $IN_PIPE | nc -l -p $SERVER_PORT > $WS_PIPE &
+cat $WS_PIPE | $(realpath "$(dirname "${BASH_SOURCE[0]}")")/pipe_to_websocket.sh $IN_PIPE | nc -l -p $SERVER_PORT > $WS_PIPE &
 serverpid=$!
+
+sig_handler() {
+   printf "\nProcess interrupted. Exiting PID %d\n" $serverpid
+   kill $serverpid
+   exit 0
+}
+
+trap sig_handler SIGHUP SIGKILL SIGINT SIGSTOP
 
 # input loop
 while read line
@@ -24,4 +32,3 @@ do
    echo "$line" >> $IN_PIPE;
 done
 
-kill $serverpid
